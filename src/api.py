@@ -3,9 +3,13 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import pandas as pd
+from prometheus_fastapi_instrumentator import Instrumentator # <- NUEVO
 
 # Inicializar la API
 app = FastAPI(title="Iris ML API", description="API para predecir especies de Iris")
+
+# Activar el monitoreo y exponer la ruta /metrics <- NUEVO
+Instrumentator().instrument(app).expose(app)
 
 # Cargar el modelo (esto ocurre una sola vez al prender el servidor)
 model = joblib.load('models/model.pkl')

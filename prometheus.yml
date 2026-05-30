@@ -1,0 +1,9 @@
+# prometheus.yml
+global:
+  scrape_interval: 5s # Le pedirá métricas a la API cada 5 segundos
+
+scrape_configs:
+  - job_name: 'iris-ml-api'
+    static_configs:
+      # 'api' será el nombre de nuestro contenedor en la red de Docker
+      - targets: ['api:8000'] 

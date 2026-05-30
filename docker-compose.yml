@@ -1,0 +1,25 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # 1. Nuestra API de ML
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+
+  # 2. La base de datos de monitoreo
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml # Le inyectamos nuestra configuración
+
+  # 3. El panel visual
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus # Grafana espera a que Prometheus encienda primero
